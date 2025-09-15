@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using WebApiEbd.Context;
 
 namespace WebApiEbd.Controllers;
