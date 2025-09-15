@@ -1,0 +1,6 @@
+@WebApiEbd_HostAddress = http://localhost:5197
+
+GET {{WebApiEbd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,7 @@
+﻿services:
+  webapiebd:
+    image: webapiebd
+    build:
+      context: .
+      dockerfile: WebApiEbd/Dockerfile
+
