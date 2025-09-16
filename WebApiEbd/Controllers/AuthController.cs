@@ -36,14 +36,18 @@ public class AuthController(AppDbContext context, JwtService jwtService) : Contr
             Email = request.Email,
             Password = hashedPassword,
             Gender = request.Gender,
+            AvatarUrl = $"https://avatar.iran.liara.run/public/{new Random().Next(1, 101)}",
             RoleId = 3
         };
 
         context.User.Add(user);
         await context.SaveChangesAsync();
 
-        return Ok("Usuario registrado correctamente");
+        var token = jwtService.GenerateToken(user.Id, user.Username);
+
+        return Ok(new LoginResponseDto(token));
     }
+
 
     [HttpPost("sign-in")]
     public async Task<IActionResult> SignIn([FromBody] LoginRequestDto request)

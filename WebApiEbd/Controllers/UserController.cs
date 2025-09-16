@@ -11,7 +11,7 @@ namespace WebApiEbd.Controllers;
 public class UserController(AppDbContext context) : ControllerBase
 {
     // GET: api/user
-    [HttpGet]
+    [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<UserListDto>>> GetAll()
     {
         var users = await context.User

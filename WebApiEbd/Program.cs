@@ -8,6 +8,18 @@ using WebApiEbd.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithOrigins("http://localhost:5173");
+    });
+});
+
 builder.Services.AddControllers();
 
 //database
@@ -48,6 +60,8 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     Console.WriteLine($"Conexión exitosa: {db.Database.CanConnect()}");
 }
+
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
