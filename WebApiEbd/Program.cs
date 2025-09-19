@@ -2,9 +2,12 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using WebApiEbd.Context;
-using WebApiEbd.Services;
-using WebApiEbd.Utils;
+using WebApiEbd.Application.Ports.In;
+using WebApiEbd.Application.Ports.Out;
+using WebApiEbd.Application.Services;
+using WebApiEbd.Infrastructure.Persistence.Context;
+using WebApiEbd.Infrastructure.Persistence.Repositories;
+using WebApiEbd.Infrastructure.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +29,9 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddSingleton<JwtService>();
-builder.Services.AddSingleton<PasswordHasher>();
+builder.Services.AddScoped<IUserAuthRepository, UserAuthRepository>();
+builder.Services.AddScoped<IUserAuthService, UserAuthService>();
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
 //http
 builder.Services.AddHttpClient();
