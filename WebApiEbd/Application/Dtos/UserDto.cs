@@ -1,5 +1,12 @@
 namespace WebApiEbd.Application.Dtos;
-public record UserListDto(string Username, string Name, char Status, string RoleName);
+
+public record UserListDto(
+    int Id,
+    string Username,
+    string Name,
+    char Status,
+    string RoleName
+);
 
 public record UserDetailDto(
     int Id,

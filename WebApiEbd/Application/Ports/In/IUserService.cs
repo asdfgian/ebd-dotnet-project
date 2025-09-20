@@ -1,7 +1,13 @@
-namespace WebApiEbd.Domain.Ports.In
+using WebApiEbd.Application.Dtos;
+
+namespace WebApiEbd.Application.Ports.In
 {
-    public class IUserService
+    public interface IUserService
     {
-        
+        Task<IEnumerable<UserListDto>> ListUsers();
+
+        Task<UserDetailDto> UserDetailById(int id);
+
+        Task<UserDetailDto> UpdateUserById(int id, UpdateUserDto dto);
     }
 }

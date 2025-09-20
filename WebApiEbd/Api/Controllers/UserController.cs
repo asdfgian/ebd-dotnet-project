@@ -2,56 +2,28 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiEbd.Application.Dtos;
-using WebApiEbd.Infrastructure.Persistence.Context;
+using WebApiEbd.Application.Ports.In;
 
 namespace WebApiEbd.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class UserController(AppDbContext context) : ControllerBase
+public class UserController(IUserService service) : ControllerBase
 {
-    // GET: api/user
+    // GET: api/user/all
     [HttpGet("all")]
-    public async Task<ActionResult<IEnumerable<UserListDto>>> GetAll()
+    public async Task<ActionResult> GetAll()
     {
-        var users = await context.User
-            .AsNoTracking()
-            .Include(u => u.Role)
-            .Select(u => new UserListDto(
-                u.Username,
-                u.Name,
-                u.Status,
-                u.Role.Name
-            ))
-            .ToListAsync();
-
+        var users = await service.ListUsers();
         return Ok(users);
     }
 
     // GET: api/user/{id}
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<UserDetailDto>> GetById(int id)
+    public async Task<ActionResult> GetById(int id)
     {
-        var user = await context.User
-            .AsNoTracking()
-            .Include(u => u.Role)
-            .Where(u => u.Id == id)
-            .Select(u => new UserDetailDto(
-                u.Id,
-                u.Email,
-                u.Username,
-                u.Name,
-                u.Phone,
-                u.Status,
-                u.Gender,
-                u.AvatarUrl,
-                u.Role.Name,
-                u.CreatedAt,
-                u.UpdatedAt,
-                u.DepartmentId
-            ))
-            .FirstOrDefaultAsync();
+        var user = await service.UserDetailById(id);
 
         if (user == null)
             return NotFound($"No se encontró el usuario con id {id}");
@@ -61,47 +33,10 @@ public class UserController(AppDbContext context) : ControllerBase
 
     // PUT: api/user/{id}
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<UserDetailDto>> Update(int id, [FromBody] UpdateUserDto dto)
+    public async Task<ActionResult> Update(int id, [FromBody] UpdateUserDto dto)
     {
-        var user = await context.User
-            .Include(u => u.Role)
-            .FirstOrDefaultAsync(u => u.Id == id);
-
-        if (user == null)
-            return NotFound($"No se encontró el usuario con id {id}");
-
-        if (!string.IsNullOrWhiteSpace(dto.Username))
-            user.Username = dto.Username;
-
-        if (!string.IsNullOrWhiteSpace(dto.Phone))
-            user.Phone = dto.Phone;
-
-        if (!string.IsNullOrWhiteSpace(dto.AvatarUrl))
-            user.AvatarUrl = dto.AvatarUrl;
-
-        if (dto.DepartmentId != null)
-            user.DepartmentId = dto.DepartmentId;
-
-        user.UpdatedAt = DateTime.Now;
-
-        await context.SaveChangesAsync();
-
-        var result = new UserDetailDto(
-            user.Id,
-            user.Email,
-            user.Username,
-            user.Name,
-            user.Phone,
-            user.Status,
-            user.Gender,
-            user.AvatarUrl,
-            user.Role.Name,
-            user.CreatedAt,
-            user.UpdatedAt,
-            user.DepartmentId
-        );
-
-        return Ok(result);
+        var user = await service.UpdateUserById(id, dto);
+        return Ok(user);
     }
 
 }
