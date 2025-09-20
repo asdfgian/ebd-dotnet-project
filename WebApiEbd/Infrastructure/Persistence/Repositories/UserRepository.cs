@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using WebApiEbd.Application.Ports.Out;
-using WebApiEbd.Domain.Models;
+using WebApiEbd.Core.Application.Ports.Out;
+using WebApiEbd.Core.Domain.Models;
 using WebApiEbd.Infrastructure.Persistence.Context;
 
 namespace WebApiEbd.Infrastructure.Persistence.Repositories

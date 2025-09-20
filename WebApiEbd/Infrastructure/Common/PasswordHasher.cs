@@ -3,8 +3,7 @@ using System.Text;
 
 namespace WebApiEbd.Infrastructure.Common;
 
-
-public class PasswordHasher
+public static class PasswordHasher
 {
     public static string HashPassword(string password)
     {

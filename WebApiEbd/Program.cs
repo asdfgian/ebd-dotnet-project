@@ -1,14 +1,15 @@
+
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using WebApiEbd.Api.Middleware;
-using WebApiEbd.Application.Ports.In;
-using WebApiEbd.Application.Ports.Out;
-using WebApiEbd.Application.Services;
+using WebApiEbd.Core.Application.Ports.In;
+using WebApiEbd.Core.Application.Ports.Out;
+using WebApiEbd.Core.Application.Services;
 using WebApiEbd.Infrastructure.Persistence.Context;
 using WebApiEbd.Infrastructure.Persistence.Repositories;
 using WebApiEbd.Infrastructure.Security;
+using WebApiEbd.Presentation.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,9 +33,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUserAuthRepository, UserAuthRepository>();
 builder.Services.AddScoped<IUserAuthService, UserAuthService>();
+
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
 
 //http
 builder.Services.AddHttpClient();
@@ -62,12 +68,6 @@ builder.Services.AddAuthentication(item =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    Console.WriteLine($"Conexión exitosa: {db.Database.CanConnect()}");
-}
-
 app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
@@ -79,4 +79,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+await app.RunAsync();

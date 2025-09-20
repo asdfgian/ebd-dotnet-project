@@ -2,8 +2,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using WebApiEbd.Domain.Models;
-using WebApiEbd.Application.Ports.Out;
+using WebApiEbd.Core.Domain.Models;
+using WebApiEbd.Core.Application.Ports.Out;
 
 namespace WebApiEbd.Infrastructure.Security
 {

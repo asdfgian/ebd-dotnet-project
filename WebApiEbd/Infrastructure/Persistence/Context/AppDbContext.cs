@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApiEbd.Domain.Models;
+using WebApiEbd.Core.Domain.Models;
 
 namespace WebApiEbd.Infrastructure.Persistence.Context;
 
