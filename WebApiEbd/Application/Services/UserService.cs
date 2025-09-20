@@ -1,8 +1,7 @@
-
-using Microsoft.AspNetCore.Http.HttpResults;
 using WebApiEbd.Application.Dtos;
 using WebApiEbd.Application.Ports.In;
 using WebApiEbd.Application.Ports.Out;
+using WebApiEbd.Domain.Exceptions;
 
 namespace WebApiEbd.Application.Services
 {
@@ -10,7 +9,7 @@ namespace WebApiEbd.Application.Services
     {
         public async Task<IEnumerable<UserListDto>> ListUsers()
         {
-            var users = await repository.GetAll();
+            var users = await repository.GetAllAsync();
             return users.Select(u => new UserListDto(
                 u.Id,
                 u.Username,
@@ -20,14 +19,9 @@ namespace WebApiEbd.Application.Services
             ));
         }
 
-        public async Task<UserDetailDto?> UpdateUserById(int id, UpdateUserDto dto)
+        public async Task<UserDetailDto> UpdateUserById(int id, UpdateUserDto dto)
         {
-            var user = await repository.GetById(id);
-            if (user is null)
-            {
-                return null;
-            }
-
+            var user = await repository.GetByIdAsync(id) ?? throw new UserNotFoundException(id);
             if (!string.IsNullOrWhiteSpace(dto.Username))
                 user.Username = dto.Username;
             if (!string.IsNullOrWhiteSpace(dto.Phone))
@@ -39,7 +33,9 @@ namespace WebApiEbd.Application.Services
             if (dto.DepartmentId != null)
                 user.DepartmentId = dto.DepartmentId;
 
-            await repository.Update(user);
+            user.UpdatedAt = DateTime.Now;
+
+            await repository.UpdateAsync(user);
 
             return new UserDetailDto(
                 user.Id,
@@ -57,14 +53,9 @@ namespace WebApiEbd.Application.Services
             );
         }
 
-        public async Task<UserDetailDto?> UserDetailById(int id)
+        public async Task<UserDetailDto> UserDetailById(int id)
         {
-            var user = await repository.GetById(id);
-            if (user is null)
-            {
-                return null;
-            }
-
+            var user = await repository.GetByIdAsync(id) ?? throw new UserNotFoundException(id);
             return new UserDetailDto(
                 user.Id,
                 user.Email,
@@ -80,5 +71,6 @@ namespace WebApiEbd.Application.Services
                 user.DepartmentId
             );
         }
+
     }
 }

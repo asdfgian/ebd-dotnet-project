@@ -13,8 +13,8 @@ namespace WebApiEbd.Application.Services
         public async Task<AuthResultDto> SignIn(string identifier, string password)
         {
             var user = identifier.Contains('@')
-                ? await repository.GetByEmail(identifier)
-                : await repository.GetByUsername(identifier);
+                ? await repository.GetByEmailAsync(identifier)
+                : await repository.GetByUsernameAsync(identifier);
 
             if (user == null) return new AuthResultDto(false, null, "Usuario no encontrado");
 
@@ -27,12 +27,12 @@ namespace WebApiEbd.Application.Services
 
         public async Task<AuthResultDto> SignUp(RegisterDto dto)
         {
-            if (await repository.GetByEmail(dto.Email) != null)
+            if (await repository.GetByEmailAsync(dto.Email) != null)
             {
                 return new AuthResultDto(false, null, "Email ya registrado");
             }
 
-            if (await repository.GetByUsername(dto.Username) != null)
+            if (await repository.GetByUsernameAsync(dto.Username) != null)
             {
                 return new AuthResultDto(false, null, "El nombre de usuario ya está en uso.");
             }
@@ -50,7 +50,7 @@ namespace WebApiEbd.Application.Services
                 RoleId = 3
             };
 
-            await repository.Add(user);
+            await repository.AddAsync(user);
 
             var token = tokenGenerator.GenerateToken(user);
 

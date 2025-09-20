@@ -7,18 +7,18 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
 {
     public class UserAuthRepository(AppDbContext ctx) : IUserAuthRepository
     {
-        public async Task Add(User user)
+        public async Task AddAsync(User user)
         {
             ctx.User.Add(user);
             await ctx.SaveChangesAsync();
         }
 
-        public async Task<User?> GetByEmail(string email)
+        public async Task<User?> GetByEmailAsync(string email)
         {
             return await ctx.User.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<User?> GetByUsername(string username)
+        public async Task<User?> GetByUsernameAsync(string username)
         {
             return await ctx.User.FirstOrDefaultAsync(u => u.Username == username);
         }

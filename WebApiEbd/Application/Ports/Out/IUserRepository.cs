@@ -4,8 +4,8 @@ namespace WebApiEbd.Application.Ports.Out
 {
     public interface IUserRepository
     {
-        Task<User?> GetById(int id);
-        Task<IEnumerable<User>> GetAll();
-        Task Update(User user);
+        Task<User?> GetByIdAsync(int id);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task UpdateAsync(User user);
     }
 }

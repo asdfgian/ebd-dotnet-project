@@ -7,17 +7,24 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
 {
     public class UserRepository(AppDbContext ctx) : IUserRepository
     {
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            return await ctx.User.AsNoTracking().ToListAsync();
+            return await ctx.User
+                .AsNoTracking()
+                .Include(u => u.Role)
+                .ToListAsync();
         }
 
-        public async Task<User?> GetById(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
-            return await ctx.User.FindAsync(id);
+            return await ctx.User
+                .AsNoTracking()
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task Update(User user)
+
+        public async Task UpdateAsync(User user)
         {
             ctx.User.Update(user);
             await ctx.SaveChangesAsync();
