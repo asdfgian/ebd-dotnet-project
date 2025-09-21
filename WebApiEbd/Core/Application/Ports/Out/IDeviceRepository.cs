@@ -8,7 +8,7 @@ namespace WebApiEbd.Core.Application.Ports.Out
         Task<Device> AddAsync(Device device);
         Task<IEnumerable<Device>> GetAllAsync();
         Task<Device?> GetByIdAsync(int id);
-        Task<Device> UpdateAsync(Device user);
+        Task<Device> UpdateAsync(Device device);
         Task DeleteByIdAsync(int id);
     }
 }

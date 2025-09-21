@@ -2,90 +2,46 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiEbd.Core.Application.Dtos;
-using WebApiEbd.Core.Domain.Models;
+using WebApiEbd.Core.Application.Ports.In;
 using WebApiEbd.Infrastructure.Persistence.Context;
 
-namespace WebApiEbd.Presentation.Api.Controllers;
+namespace WebApiEbd.Presentation.Api.Controllers.Brand;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 [Authorize]
-public class BrandController(AppDbContext context) : ControllerBase
+public class BrandController(IBrandService service) : ControllerBase
 {
-    // GET: api/brand/all
+    // GET: brand/all
     [HttpGet("all")]
-    public async Task<ActionResult<IEnumerable<BrandDto>>> GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var brands = await context.Brand
-            .AsNoTracking()
-            .Include(b => b.CountryOrigin)
-            .Select(b => new BrandDto(b.Id, b.Name, b.CountryOrigin.Name))
-            .ToListAsync();
-
+        var brands = await service.ListBrands();
         return Ok(brands);
     }
 
-    // GET: api/brand/{id}
+    // GET: brand/{id}
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<BrandDto>> GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var brand = await context.Brand
-            .AsNoTracking()
-            .Include(b => b.CountryOrigin)
-            .Where(b => b.Id == id)
-            .Select(b => new BrandDto(b.Id, b.Name, b.CountryOrigin.Name))
-            .FirstOrDefaultAsync();
-
-        if (brand == null)
-            return NotFound($"No se encontró la marca con id {id}");
-
+        var brand = await service.BrandById(id);
         return Ok(brand);
     }
 
-    // POST: api/brand
+    // POST: brand
     [HttpPost]
-    public async Task<ActionResult<BrandDto>> Create([FromBody] CreateBrandDto dto)
+    public async Task<IActionResult> Create([FromBody] CreateBrandDto dto)
     {
-        if (await context.Brand.AnyAsync(b => b.Name == dto.Name))
-            return Conflict($"Ya existe una marca con el nombre '{dto.Name}'");
-
-        var brand = new Brand
-        {
-            Name = dto.Name,
-            CountryOriginId = dto.CountryOriginId
-        };
-
-        context.Brand.Add(brand);
-        await context.SaveChangesAsync();
-
-        var countryName = await context.CountryOrigin
-            .Where(c => c.Id == dto.CountryOriginId)
-            .Select(c => c.Name)
-            .FirstOrDefaultAsync();
-
-        var result = new BrandDto(brand.Id, brand.Name, countryName!);
-
-        return CreatedAtAction(nameof(GetById), new { id = brand.Id }, result);
+        var created = await service.CreateBrand(dto);
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
-
+    // PUT: brand/{id}
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateBrandDto dto)
     {
-        var brand = await context.Brand.FindAsync(id);
-        if (brand == null)
-            return NotFound($"No se encontró la marca con id {id}");
-
-        if (await context.Brand.AnyAsync(b => b.Name == dto.Name && b.Id != id))
-            return Conflict($"Ya existe una marca con el nombre '{dto.Name}'");
-
-        brand.Name = dto.Name;
-        brand.CountryOriginId = dto.CountryOriginId;
-
-        context.Brand.Update(brand);
-        await context.SaveChangesAsync();
-
-        return NoContent();
+        var updated = await service.UpdateBrandById(id, dto);
+        return Ok(updated);
     }
 
 }
