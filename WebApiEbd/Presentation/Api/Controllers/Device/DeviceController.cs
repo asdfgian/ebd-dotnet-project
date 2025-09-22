@@ -1,4 +1,3 @@
-
 namespace WebApiEbd.Presentation.Api.Controllers.Device;
 
 using Microsoft.AspNetCore.Authorization;

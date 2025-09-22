@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebApiEbd.Core.Application.Dtos;
 using WebApiEbd.Core.Application.Ports.In;
-using WebApiEbd.Infrastructure.Persistence.Context;
 
 namespace WebApiEbd.Presentation.Api.Controllers.Brand;
 
@@ -43,5 +41,4 @@ public class BrandController(IBrandService service) : ControllerBase
         var updated = await service.UpdateBrandById(id, dto);
         return Ok(updated);
     }
-
 }

@@ -1,3 +1,4 @@
+using NuGet.Protocol;
 using WebApiEbd.Core.Application.Dtos;
 using WebApiEbd.Core.Application.Ports.In;
 using WebApiEbd.Core.Application.Ports.Out;
@@ -17,8 +18,7 @@ namespace WebApiEbd.Core.Application.Services
                 Model = dto.Model,
                 SerialNumber = dto.SerialNumber,
                 Status = dto.Status,
-                BrandId = dto.BrandId,
-                CreatedAt = DateTime.UtcNow
+                BrandId = dto.BrandId
             };
 
             var created = await repository.AddAsync(device);
@@ -76,7 +76,6 @@ namespace WebApiEbd.Core.Application.Services
             existing.Model = dto.Model;
             existing.Status = dto.Status;
             existing.BrandId = dto.BrandId;
-            existing.UpdatedAt = DateTime.UtcNow;
 
             var updated = await repository.UpdateAsync(existing);
 

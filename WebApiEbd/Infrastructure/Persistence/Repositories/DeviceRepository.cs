@@ -9,16 +9,28 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
     {
         public async Task<Device> AddAsync(Device device)
         {
-            var exists = await ctx.Device.AnyAsync(d => d.SerialNumber == device.SerialNumber);
+            var exists = await ctx.Device
+                .AnyAsync(d => d.SerialNumber == device.SerialNumber);
+
             if (exists)
             {
-                throw new InvalidOperationException($"Ya existe un dispositivo con SerialNumber {device.SerialNumber}");
+                throw new InvalidOperationException(
+                    $"Ya existe un dispositivo con SerialNumber {device.SerialNumber}"
+                );
             }
 
             ctx.Device.Add(device);
             await ctx.SaveChangesAsync();
-            return device;
+
+            var created = await ctx.Device
+                .AsNoTracking()
+                .Include(d => d.Brand)
+                .ThenInclude(b => b.CountryOrigin)
+                .FirstAsync(d => d.SerialNumber == device.SerialNumber);
+
+            return created;
         }
+
 
         public async Task DeleteByIdAsync(int id)
         {
@@ -41,20 +53,15 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
             return await ctx.Device
                 .AsNoTracking()
                 .Include(d => d.Brand)
+                .ThenInclude(b => b.CountryOrigin)
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
+
         public async Task<Device> UpdateAsync(Device device)
         {
-            var existing = await ctx.Device.FindAsync(device.Id) ?? throw new KeyNotFoundException($"No se encontró el dispositivo con id {device.Id}");
-            existing.Name = device.Name;
-            existing.SerialNumber = device.SerialNumber;
-            existing.BrandId = device.BrandId;
-            existing.UpdatedAt = DateTime.UtcNow;
-
-            ctx.Device.Update(existing);
+            ctx.Device.Update(device);
             await ctx.SaveChangesAsync();
-
-            return existing;
+            return device;
         }
     }
 }
