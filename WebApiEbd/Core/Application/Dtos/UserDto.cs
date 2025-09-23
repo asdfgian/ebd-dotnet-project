@@ -20,7 +20,7 @@ public record UserDetailDto(
     string RoleName,
     DateTime? CreatedAt,
     DateTime? UpdatedAt,
-    int? DepartmentId
+    string? DepartmentName
 );
 
 public record UpdateUserDto(

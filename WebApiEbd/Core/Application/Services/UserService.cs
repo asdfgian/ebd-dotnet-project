@@ -49,7 +49,7 @@ namespace WebApiEbd.Core.Application.Services
                 user.Role.Name,
                 user.CreatedAt,
                 user.UpdatedAt,
-                user.DepartmentId
+                user.Department?.Name ?? "Sin departamento asignado"
             );
         }
 
@@ -68,7 +68,7 @@ namespace WebApiEbd.Core.Application.Services
                 user.Role.Name,
                 user.CreatedAt,
                 user.UpdatedAt,
-                user.DepartmentId
+                user.Department?.Name ?? "Sin departamento asignado"
             );
         }
 

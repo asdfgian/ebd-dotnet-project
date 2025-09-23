@@ -1,4 +1,3 @@
-using WebApiEbd.Core.Application.Dtos;
 using WebApiEbd.Core.Application.Ports.Out;
 
 namespace WebApiEbd.Infrastructure.Http
