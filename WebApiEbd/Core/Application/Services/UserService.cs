@@ -21,7 +21,8 @@ namespace WebApiEbd.Core.Application.Services
 
         public async Task<UserDetailDto> UpdateUserById(int id, UpdateUserDto dto)
         {
-            var user = await repository.GetByIdAsync(id) ?? throw new UserNotFoundException(id);
+            var user = await repository.GetByIdAsyncTracked(id) ?? throw new UserNotFoundException(id);
+
             if (!string.IsNullOrWhiteSpace(dto.Username))
                 user.Username = dto.Username;
             if (!string.IsNullOrWhiteSpace(dto.Phone))
@@ -30,26 +31,30 @@ namespace WebApiEbd.Core.Application.Services
             if (!string.IsNullOrWhiteSpace(dto.AvatarUrl))
                 user.AvatarUrl = dto.AvatarUrl;
 
-            if (dto.DepartmentId != null)
-                user.DepartmentId = dto.DepartmentId;
+            user.DepartmentId = dto.DepartmentId;
+            user.RoleId = dto.RoleId;
+            user.Status = dto.Status;
 
             user.UpdatedAt = DateTime.Now;
 
             await repository.UpdateAsync(user);
 
+            var updated = await repository.GetByIdAsync(user.Id) ?? throw new UserNotFoundException(id);
+
             return new UserDetailDto(
-                user.Id,
-                user.Email,
-                user.Username,
-                user.Name,
-                user.Phone,
-                user.Status,
-                user.Gender,
-                user.AvatarUrl,
-                user.Role.Name,
-                user.CreatedAt,
-                user.UpdatedAt,
-                user.Department?.Name ?? "Sin departamento asignado"
+                updated.Id,
+                updated.Email,
+                updated.Username,
+                updated.Name,
+                updated.Phone,
+                updated.Status,
+                updated.Gender,
+                updated.AvatarUrl,
+                updated.Role.Name,
+                updated.CreatedAt,
+                updated.UpdatedAt,
+                new DepartmentDto(updated.Department!.Id, updated.Department.Name),
+                new RoleDto(updated.Role.Id, updated.Role.Name, updated.Role.Description)
             );
         }
 
@@ -61,14 +66,15 @@ namespace WebApiEbd.Core.Application.Services
                 user.Email,
                 user.Username,
                 user.Name,
-                user.Phone,
+                user.Phone ?? "",
                 user.Status,
                 user.Gender,
                 user.AvatarUrl,
                 user.Role.Name,
                 user.CreatedAt,
                 user.UpdatedAt,
-                user.Department?.Name ?? "Sin departamento asignado"
+                new DepartmentDto(user.Department!.Id, user.Department.Name),
+                new RoleDto(user.Role.Id, user.Role.Name, user.Role.Description)
             );
         }
 

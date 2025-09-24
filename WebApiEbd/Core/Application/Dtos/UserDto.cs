@@ -20,12 +20,15 @@ public record UserDetailDto(
     string RoleName,
     DateTime? CreatedAt,
     DateTime? UpdatedAt,
-    string? DepartmentName
+    DepartmentDto DepartmentDto,
+    RoleDto RoleDto
 );
 
 public record UpdateUserDto(
     string? Username,
     string? Phone,
     string? AvatarUrl,
-    int? DepartmentId
+    int? DepartmentId,
+    int RoleId,
+    char Status
 );

@@ -47,7 +47,8 @@ namespace WebApiEbd.Core.Application.Services
                 Password = hashedPassword,
                 Gender = dto.Gender,
                 AvatarUrl = $"https://avatar.iran.liara.run/public/{new Random().Next(1, 101)}",
-                RoleId = 3
+                RoleId = 3,
+                DepartmentId = 11
             };
 
             await repository.AddAsync(user);
