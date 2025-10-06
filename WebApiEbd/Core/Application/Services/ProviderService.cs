@@ -41,6 +41,7 @@ namespace WebApiEbd.Core.Application.Services
         {
             var providers = await repository.GetAllAsync();
             return providers.Select(p => new ProviderListDto(
+                p.Id,
                 p.Ruc,
                 p.Name,
                 p.Email ?? string.Empty,

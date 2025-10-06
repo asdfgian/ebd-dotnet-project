@@ -1,0 +1,42 @@
+[
+    {
+        "nombre": "Mateo",
+        "apellidos": "Rojas Fernández",
+        "username": "mrojas",
+        "email": "m.rojas@example.com",
+        "genero": "M",
+        "password": "V4nguardia!2025"
+    },
+    {
+        "nombre": "Camila",
+        "apellidos": "Ortiz Salazar",
+        "username": "camila_ort",
+        "email": "camila.ortiz@hotmail.com",
+        "genero": "F",
+        "password": "C0smic#Run90"
+    },
+    {
+        "nombre": "Joaquín",
+        "apellidos": "Pérez Luna",
+        "username": "joaquin.p",
+        "email": "joaquin.perez@example.com",
+        "genero": "M",
+        "password": "JPluna$88_secure"
+    },
+    {
+        "nombre": "Valeria",
+        "apellidos": "Núñez Chávez",
+        "username": "valenunez",
+        "email": "valeria.nunez@example.com",
+        "genero": "F",
+        "password": "N3bula*Leap!7"
+    },
+    {
+        "nombre": "Sebastián",
+        "apellidos": "Gutiérrez Morales",
+        "username": "segutierrez",
+        "email": "seb.gutierrez@example.com",
+        "genero": "M",
+        "password": "SGM-Strong2025#"
+    }
+]

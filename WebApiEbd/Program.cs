@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using WebApiEbd.Core.Application.Ports.In;
 using WebApiEbd.Core.Application.Ports.Out;
 using WebApiEbd.Core.Application.Services;
+using WebApiEbd.Infrastructure.Http;
 using WebApiEbd.Infrastructure.Persistence.Context;
 using WebApiEbd.Infrastructure.Persistence.Repositories;
 using WebApiEbd.Infrastructure.Security;
@@ -41,6 +42,12 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+
+builder.Services.AddScoped<IDecolectaApiService, DecolectaApiService>();
+builder.Services.AddScoped<IDecolectaApiProvider, DecolectaApiProvider>();
+
+builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+builder.Services.AddScoped<IProviderService, ProviderService>();
 
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();

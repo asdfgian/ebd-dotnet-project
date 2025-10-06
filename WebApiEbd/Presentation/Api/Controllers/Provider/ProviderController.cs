@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WebApiEbd.Core.Application.Dtos;
 using WebApiEbd.Core.Application.Ports.In;
 
@@ -14,7 +13,7 @@ public class ProviderController(
     IDecolectaApiService apiService) : ControllerBase
 {
 
-    // GET: provider/by-ruc?ruc=20601030013
+    // GET: provider/by-ruc?ruc=xxxxxxxx
     [HttpGet("by-ruc")]
     public async Task<ActionResult<ProviderApiDetailDto>> GetProviderByRuc([FromQuery] string ruc)
     {
@@ -29,6 +28,7 @@ public class ProviderController(
             decoletaDto.Address ?? string.Empty,
             decoletaDto.District,
             decoletaDto.Province,
+            decoletaDto.Department,
             decoletaDto.Status
         );
 

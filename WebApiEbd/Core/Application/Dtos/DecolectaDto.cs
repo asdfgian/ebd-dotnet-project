@@ -20,4 +20,7 @@ public class DecolectaDto
 
     [JsonPropertyName("provincia")]
     public string Province { get; set; } = null!;
+
+    [JsonPropertyName("departamento")]
+    public string Department { get; set; } = null!;
 }

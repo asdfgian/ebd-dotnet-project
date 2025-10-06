@@ -6,10 +6,12 @@ public record ProviderApiDetailDto(
     string Address,
     string District,
     string Province,
+    string Department,
     string Status
 );
 
 public record ProviderListDto(
+    int Id,
     string Ruc,
     string Name,
     string Email,
