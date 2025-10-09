@@ -2,8 +2,8 @@ namespace WebApiEbd.Presentation.Api.Controllers.Device;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApiEbd.Core.Application.Dtos;
-using WebApiEbd.Core.Application.Ports.In;
+using Core.Application.Dtos;
+using Core.Application.Ports.In;
 
 [Route("[controller]")]
 [ApiController]
@@ -38,7 +38,7 @@ public class DeviceController(IDeviceService service) : ControllerBase
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateDeviceDto dto)
     {
-        var updated = await service.UpdateUserById(id, dto);
+        var updated = await service.UpdateDeviceById(id, dto);
         return Ok(updated);
     }
 }

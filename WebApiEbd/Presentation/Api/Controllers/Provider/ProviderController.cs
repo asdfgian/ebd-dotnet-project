@@ -12,7 +12,6 @@ public class ProviderController(
     IProviderService service,
     IDecolectaApiService apiService) : ControllerBase
 {
-
     // GET: provider/by-ruc?ruc=xxxxxxxx
     [HttpGet("by-ruc")]
     public async Task<ActionResult<ProviderApiDetailDto>> GetProviderByRuc([FromQuery] string ruc)

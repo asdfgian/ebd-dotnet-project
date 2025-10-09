@@ -14,6 +14,7 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
                 .Include(u => u.Role)
                 .ToListAsync();
         }
+
         public async Task<User?> GetByIdAsync(int id)
         {
             return await ctx.User
@@ -22,6 +23,7 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
                 .Include(u => u.Department)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
+
         public async Task<User?> GetByIdAsyncTracked(int id)
         {
             return await ctx.User

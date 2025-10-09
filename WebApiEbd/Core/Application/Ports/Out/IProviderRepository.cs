@@ -8,6 +8,5 @@ namespace WebApiEbd.Core.Application.Ports.Out
         Task<IEnumerable<Provider>> GetAllAsync();
         Task<Provider?> GetByIdAsync(int id);
         Task<Provider?> UpdateAsync(Provider provider);
-
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,11 +9,11 @@ namespace WebApiEbd.Core.Domain.Models;
 [Table("user")]
 [Index("Email", Name = "user_email_key", IsUnique = true)]
 [Index("Username", Name = "user_username_key", IsUnique = true)]
-public class User
+public partial class User
 {
     [Key]
     [Column("id")]
-    public int Id { get; init; }
+    public int Id { get; set; }
 
     [Column("email")]
     [StringLength(200)]
@@ -26,7 +28,7 @@ public class User
 
     [Column("name")]
     [StringLength(100)]
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; }
 
     [Column("phone")]
     [StringLength(9)]
@@ -38,7 +40,7 @@ public class User
 
     [Column("gender")]
     [MaxLength(1)]
-    public char Gender { get; init; }
+    public char Gender { get; set; }
 
     [Column("avatar_url")]
     public string? AvatarUrl { get; set; }
@@ -47,7 +49,7 @@ public class User
     public int RoleId { get; set; }
 
     [Column("created_at", TypeName = "timestamp without time zone")]
-    public DateTime? CreatedAt { get; init; }
+    public DateTime? CreatedAt { get; set; }
 
     [Column("updated_at", TypeName = "timestamp without time zone")]
     public DateTime? UpdatedAt { get; set; }
@@ -56,25 +58,25 @@ public class User
     public int? DepartmentId { get; set; }
 
     [InverseProperty("User")]
-    public ICollection<Contract> Contract { get; set; } = [];
+    public virtual ICollection<Contract> Contract { get; set; } = new List<Contract>();
 
     [ForeignKey("DepartmentId")]
     [InverseProperty("User")]
-    public Department? Department { get; set; }
+    public virtual Department? Department { get; set; }
 
     [InverseProperty("CreatedByNavigation")]
-    public ICollection<Movement> MovementCreatedByNavigation { get; set; } = [];
+    public virtual ICollection<Movement> MovementCreatedByNavigation { get; set; } = new List<Movement>();
 
     [InverseProperty("UserDestination")]
-    public ICollection<Movement> MovementUserDestination { get; set; } = [];
+    public virtual ICollection<Movement> MovementUserDestination { get; set; } = new List<Movement>();
 
     [InverseProperty("UserOrigin")]
-    public ICollection<Movement> MovementUserOrigin { get; set; } = [];
+    public virtual ICollection<Movement> MovementUserOrigin { get; set; } = new List<Movement>();
 
     [InverseProperty("User")]
-    public ICollection<PurchaseOrder> PurchaseOrder { get; set; } = [];
+    public virtual ICollection<PurchaseOrder> PurchaseOrder { get; set; } = new List<PurchaseOrder>();
 
     [ForeignKey("RoleId")]
     [InverseProperty("User")]
-    public Role Role { get; set; } = null!;
+    public virtual Role Role { get; set; } = null!;
 }

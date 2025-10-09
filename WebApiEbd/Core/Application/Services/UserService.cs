@@ -13,7 +13,7 @@ namespace WebApiEbd.Core.Application.Services
             return users.Select(u => new UserListDto(
                 u.Id,
                 u.Username,
-                u.Name,
+                u.Name!,
                 u.Status,
                 u.Role.Name
             ));
@@ -65,7 +65,7 @@ namespace WebApiEbd.Core.Application.Services
                 user.Id,
                 user.Email,
                 user.Username,
-                user.Name,
+                user.Name!,
                 user.Phone ?? "",
                 user.Status,
                 user.Gender,
@@ -77,6 +77,5 @@ namespace WebApiEbd.Core.Application.Services
                 new RoleDto(user.Role.Id, user.Role.Name, user.Role.Description)
             );
         }
-
     }
 }

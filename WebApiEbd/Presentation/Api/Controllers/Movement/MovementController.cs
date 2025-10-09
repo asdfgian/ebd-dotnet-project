@@ -25,6 +25,5 @@ namespace WebApiEbd.Presentation.Api.Controllers.Movement
             var movement = await service.AddMovement(dto);
             return Ok(movement);
         }
-
     }
 }

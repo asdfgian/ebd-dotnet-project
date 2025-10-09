@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -21,5 +22,5 @@ public partial class Role
     public string Description { get; set; } = null!;
 
     [InverseProperty("Role")]
-    public virtual ICollection<User> User { get; set; } = [];
+    public virtual ICollection<User> User { get; set; } = new List<User>();
 }

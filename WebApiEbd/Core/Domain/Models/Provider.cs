@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,7 @@ public partial class Provider
     public string Department { get; set; } = null!;
 
     [Column("status")]
-    [MaxLength(1)]
+    [StringLength(20)]
     public string Status { get; set; } = null!;
 
     [Column("email")]
@@ -49,8 +50,8 @@ public partial class Provider
     public string? Phone { get; set; }
 
     [InverseProperty("Provider")]
-    public virtual ICollection<Contract> Contract { get; set; } = [];
+    public virtual ICollection<Contract> Contract { get; set; } = new List<Contract>();
 
     [InverseProperty("Provider")]
-    public virtual ICollection<PurchaseOrder> PurchaseOrder { get; set; } = [];
+    public virtual ICollection<PurchaseOrder> PurchaseOrder { get; set; } = new List<PurchaseOrder>();
 }

@@ -9,7 +9,8 @@ namespace WebApiEbd.Core.Application.Services
     {
         public async Task<BrandDto> BrandById(int id)
         {
-            var brand = await repository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"No se encontró la marca con id {id}");
+            var brand = await repository.GetByIdAsync(id) ??
+                        throw new KeyNotFoundException($"No se encontró la marca con id {id}");
             return new BrandDto(
                 brand.Id,
                 brand.Name,
@@ -25,7 +26,8 @@ namespace WebApiEbd.Core.Application.Services
                 CountryOriginId = dto.CountryOriginId
             };
 
-            var created = await repository.AddAsync(brand) ?? throw new InvalidOperationException("No se pudo crear la marca.");
+            var created = await repository.AddAsync(brand) ??
+                          throw new InvalidOperationException("No se pudo crear la marca.");
             return new BrandDto(
                 created.Id,
                 created.Name,
@@ -45,11 +47,13 @@ namespace WebApiEbd.Core.Application.Services
 
         public async Task<BrandDto> UpdateBrandById(int id, UpdateBrandDto dto)
         {
-            var brand = await repository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"No se encontró la marca con id {id}");
+            var brand = await repository.GetByIdAsync(id) ??
+                        throw new KeyNotFoundException($"No se encontró la marca con id {id}");
             brand.Name = dto.Name;
             brand.CountryOriginId = dto.CountryOriginId;
 
-            var updated = await repository.UpdateAsync(brand) ?? throw new InvalidOperationException("No se pudo actualizar la marca.");
+            var updated = await repository.UpdateAsync(brand) ??
+                          throw new InvalidOperationException("No se pudo actualizar la marca.");
             return new BrandDto(
                 updated.Id,
                 updated.Name,

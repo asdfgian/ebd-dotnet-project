@@ -1,11 +1,12 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApiEbd.Core.Domain.Models;
 
-[PrimaryKey("OrderId", "DeviceId")]
+[PrimaryKey("OrderId", "ProductId")]
 [Table("purchase_order_device")]
 public partial class PurchaseOrderDevice
 {
@@ -14,8 +15,8 @@ public partial class PurchaseOrderDevice
     public int OrderId { get; set; }
 
     [Key]
-    [Column("device_id")]
-    public int DeviceId { get; set; }
+    [Column("product_id")]
+    public int ProductId { get; set; }
 
     [Column("quantity")]
     public int Quantity { get; set; }
@@ -24,11 +25,11 @@ public partial class PurchaseOrderDevice
     [Precision(12, 2)]
     public decimal Price { get; set; }
 
-    [ForeignKey("DeviceId")]
-    [InverseProperty("PurchaseOrderDevice")]
-    public virtual Device Device { get; set; } = null!;
-
     [ForeignKey("OrderId")]
     [InverseProperty("PurchaseOrderDevice")]
     public virtual PurchaseOrder Order { get; set; } = null!;
+
+    [ForeignKey("ProductId")]
+    [InverseProperty("PurchaseOrderDevice")]
+    public virtual Product Product { get; set; } = null!;
 }

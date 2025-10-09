@@ -1,4 +1,3 @@
-
 using WebApiEbd.Core.Domain.Models;
 
 namespace WebApiEbd.Core.Application.Ports.Out

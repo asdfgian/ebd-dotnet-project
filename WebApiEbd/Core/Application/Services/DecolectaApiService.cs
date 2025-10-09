@@ -19,9 +19,8 @@ public class DecolectaApiService(IDecolectaApiProvider provider) : IDecolectaApi
         }
 
         var data = await response.Content.ReadFromJsonAsync<DecolectaDto>() ?? throw new InvalidOperationException(
-                $"La API devolvió una respuesta vacía o inválida para el RUC {ruc}.");
-                
+            $"La API devolvió una respuesta vacía o inválida para el RUC {ruc}.");
+
         return data;
     }
-
 }

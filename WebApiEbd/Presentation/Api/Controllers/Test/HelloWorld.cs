@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApiEbd.Apps.Api.Controllers.Test
+namespace WebApiEbd.Presentation.Api.Controllers.Test
 {
     [ApiController]
     public class HelloWorld : ControllerBase

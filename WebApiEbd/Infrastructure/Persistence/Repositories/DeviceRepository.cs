@@ -34,7 +34,8 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
 
         public async Task DeleteByIdAsync(int id)
         {
-            var device = await ctx.Device.FindAsync(id) ?? throw new KeyNotFoundException($"No se encontró el dispositivo con id {id}");
+            var device = await ctx.Device.FindAsync(id) ??
+                         throw new KeyNotFoundException($"No se encontró el dispositivo con id {id}");
             ctx.Device.Remove(device);
             await ctx.SaveChangesAsync();
         }
@@ -45,7 +46,6 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
                 .AsNoTracking()
                 .Include(d => d.Brand)
                 .ToListAsync();
-
         }
 
         public async Task<Device?> GetByIdAsync(int id)

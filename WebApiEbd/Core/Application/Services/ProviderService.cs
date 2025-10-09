@@ -24,17 +24,17 @@ namespace WebApiEbd.Core.Application.Services
             };
             await repository.AddAsync(provider);
             return new ProviderDetailDto(
-            provider.Id,
-            provider.Ruc,
-            provider.Name,
-            provider.Address,
-            provider.District,
-            provider.Province,
-            provider.Department,
-            provider.Status,
-            provider.Email,
-            provider.Phone
-        );
+                provider.Id,
+                provider.Ruc,
+                provider.Name,
+                provider.Address,
+                provider.District,
+                provider.Province,
+                provider.Department,
+                provider.Status,
+                provider.Email,
+                provider.Phone
+            );
         }
 
         public async Task<IEnumerable<ProviderListDto>> ListProviders()
@@ -52,7 +52,8 @@ namespace WebApiEbd.Core.Application.Services
 
         public async Task<ProviderDetailDto> ProviderById(int id)
         {
-            var provider = await repository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"Proveedor con id {id} no encontrado.");
+            var provider = await repository.GetByIdAsync(id) ??
+                           throw new KeyNotFoundException($"Proveedor con id {id} no encontrado.");
             return new ProviderDetailDto(
                 provider.Id,
                 provider.Ruc,

@@ -33,5 +33,4 @@ public class UserController(IUserService service) : ControllerBase
         var user = await service.UpdateUserById(id, dto);
         return Ok(user);
     }
-
 }

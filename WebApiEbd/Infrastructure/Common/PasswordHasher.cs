@@ -13,6 +13,7 @@ public static class PasswordHasher
         {
             builder.Append(b.ToString("X2"));
         }
+
         return builder.ToString();
     }
 

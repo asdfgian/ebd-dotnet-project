@@ -36,6 +36,7 @@ CREATE TABLE "contract" (
 	"provider_id" INTEGER NOT NULL,
 	"order_id" INTEGER
 );
+
 CREATE TABLE "purchase_order" (
 	"id" serial PRIMARY KEY,
 	"created_at" TIMESTAMP DEFAULT NOW(),
@@ -46,6 +47,7 @@ CREATE TABLE "purchase_order" (
 	"user_id" INTEGER NOT NULL,
 	"provider_id" INTEGER NOT NULL
 );
+
 CREATE TABLE "purchase_order_device" (
 	"order_id" INTEGER,
 	"device_id" INTEGER,
@@ -53,6 +55,7 @@ CREATE TABLE "purchase_order_device" (
 	"price" NUMERIC(12, 2) NOT NULL,
 	PRIMARY KEY ("order_id", "device_id")
 );
+
 CREATE TABLE "department" (
 	"id" serial PRIMARY KEY,
 	"name" VARCHAR(200) UNIQUE NOT NULL
@@ -107,6 +110,17 @@ CREATE TABLE "movement" (
 	"user_destination_id" INTEGER,
 	"created_by" INTEGER NOT NULL
 );
+
+CREATE TABLE "product" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(200) NOT NULL,
+    "description" TEXT,
+    "model" VARCHAR(100),
+    "brand_id" INTEGER NOT NULL,
+    FOREIGN KEY (brand_id) REFERENCES brand(id)
+);
+
+
 CREATE INDEX ON "contract" ("end_date");
 CREATE INDEX ON "movement" ("date");
 ALTER TABLE "brand"
@@ -143,6 +157,20 @@ ALTER TABLE "movement"
 ADD FOREIGN KEY ("user_destination_id") REFERENCES "user" ("id");
 ALTER TABLE "movement"
 ADD FOREIGN KEY ("created_by") REFERENCES "user" ("id");
+-- alter
+ALTER TABLE purchase_order_device
+DROP CONSTRAINT IF EXISTS purchase_order_device_device_id_fkey;
+ALTER TABLE purchase_order_device
+RENAME COLUMN device_id TO product_id;
+ALTER TABLE purchase_order_device
+ADD CONSTRAINT purchase_order_device_product_id_fkey
+FOREIGN KEY (product_id) REFERENCES product(id);
+ALTER TABLE purchase_order_device
+DROP CONSTRAINT IF EXISTS purchase_order_device_pkey;
+alter table purchase_order_device
+add primary key (order_id,
+product_id);
+
 --Insersiones
 INSERT INTO role (id, name, description)
 VALUES (
@@ -196,3 +224,6 @@ VALUES (1, 'Tecnología de la Información'),
 	(8, 'Logística y Almacén'),
 	(9, 'Desarrollo de Software'),
 	(10, 'Auditoría de Sistemas');
+
+
+

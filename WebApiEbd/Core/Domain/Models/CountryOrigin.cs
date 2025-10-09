@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,5 +19,5 @@ public partial class CountryOrigin
     public string Name { get; set; } = null!;
 
     [InverseProperty("CountryOrigin")]
-    public virtual ICollection<Brand> Brand { get; set; } = [];
+    public virtual ICollection<Brand> Brand { get; set; } = new List<Brand>();
 }

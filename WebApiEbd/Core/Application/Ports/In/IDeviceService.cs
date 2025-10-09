@@ -1,5 +1,3 @@
-
-
 using WebApiEbd.Core.Application.Dtos;
 
 namespace WebApiEbd.Core.Application.Ports.In
@@ -9,6 +7,6 @@ namespace WebApiEbd.Core.Application.Ports.In
         Task<IEnumerable<DeviceListDto>> ListDevices();
         Task<DeviceDetailDto> DeviceDetailById(int id);
         Task<DeviceDetailDto> CreateDevice(CreateDeviceDto dto);
-        Task<DeviceDetailDto> UpdateUserById(int id, UpdateDeviceDto dto);
+        Task<DeviceDetailDto> UpdateDeviceById(int id, UpdateDeviceDto dto);
     }
 }

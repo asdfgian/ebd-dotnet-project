@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,11 +51,8 @@ public partial class Device
     public virtual Brand Brand { get; set; } = null!;
 
     [InverseProperty("Device")]
-    public virtual ICollection<ContractsDevice> ContractsDevice { get; set; } = [];
+    public virtual ICollection<ContractsDevice> ContractsDevice { get; set; } = new List<ContractsDevice>();
 
     [InverseProperty("Device")]
-    public virtual ICollection<Movement> Movement { get; set; } = [];
-
-    [InverseProperty("Device")]
-    public virtual ICollection<PurchaseOrderDevice> PurchaseOrderDevice { get; set; } = [];
+    public virtual ICollection<Movement> Movement { get; set; } = new List<Movement>();
 }

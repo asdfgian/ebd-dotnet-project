@@ -39,7 +39,8 @@ namespace WebApiEbd.Core.Application.Services
 
         public async Task<DeviceDetailDto> DeviceDetailById(int id)
         {
-            var device = await repository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"Dispositivo con id {id} no encontrado.");
+            var device = await repository.GetByIdAsync(id) ??
+                         throw new KeyNotFoundException($"Dispositivo con id {id} no encontrado.");
             return new DeviceDetailDto(
                 device.Id,
                 device.Name,
@@ -67,9 +68,10 @@ namespace WebApiEbd.Core.Application.Services
             ));
         }
 
-        public async Task<DeviceDetailDto> UpdateUserById(int id, UpdateDeviceDto dto)
+        public async Task<DeviceDetailDto> UpdateDeviceById(int id, UpdateDeviceDto dto)
         {
-            var existing = await repository.GetByIdAsync(id) ?? throw new KeyNotFoundException($"Dispositivo con id {id} no encontrado.");
+            var existing = await repository.GetByIdAsync(id) ??
+                           throw new KeyNotFoundException($"Dispositivo con id {id} no encontrado.");
             existing.Name = dto.Name;
             existing.Description = dto.Description;
             existing.Price = dto.Price;

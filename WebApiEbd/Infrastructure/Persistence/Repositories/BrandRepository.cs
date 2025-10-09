@@ -37,6 +37,7 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
                 .Include(b => b.CountryOrigin)
                 .ToListAsync();
         }
+
         public async Task<Brand?> GetByIdAsync(int id)
         {
             return await ctx.Brand
@@ -44,6 +45,7 @@ namespace WebApiEbd.Infrastructure.Persistence.Repositories
                 .Include(b => b.CountryOrigin)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
+
         public async Task<Brand?> UpdateAsync(Brand brand)
         {
             var existing = await ctx.Brand.FindAsync(brand.Id);

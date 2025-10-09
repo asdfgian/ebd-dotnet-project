@@ -1,4 +1,3 @@
-
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +53,9 @@ builder.Services.AddScoped<IDeviceService, DeviceService>();
 
 builder.Services.AddScoped<IMovementRepository, MovementRepository>();
 builder.Services.AddScoped<IMovementService, MovementService>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 //http
 builder.Services.AddHttpClient();

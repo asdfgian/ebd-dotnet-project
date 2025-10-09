@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
@@ -30,14 +31,14 @@ public partial class PurchaseOrder
     public int ProviderId { get; set; }
 
     [InverseProperty("Order")]
-    public virtual ICollection<Contract> Contract { get; set; } = [];
+    public virtual ICollection<Contract> Contract { get; set; } = new List<Contract>();
 
     [ForeignKey("ProviderId")]
     [InverseProperty("PurchaseOrder")]
     public virtual Provider Provider { get; set; } = null!;
 
     [InverseProperty("Order")]
-    public virtual ICollection<PurchaseOrderDevice> PurchaseOrderDevice { get; set; } = [];
+    public virtual ICollection<PurchaseOrderDevice> PurchaseOrderDevice { get; set; } = new List<PurchaseOrderDevice>();
 
     [ForeignKey("UserId")]
     [InverseProperty("PurchaseOrder")]

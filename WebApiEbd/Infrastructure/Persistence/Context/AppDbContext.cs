@@ -9,7 +9,8 @@ public partial class AppDbContext : DbContext
     {
     }
 
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
     {
     }
 
@@ -27,6 +28,8 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Movement> Movement { get; set; }
 
+    public virtual DbSet<Product> Product { get; set; }
+
     public virtual DbSet<Provider> Provider { get; set; }
 
     public virtual DbSet<PurchaseOrder> PurchaseOrder { get; set; }
@@ -36,7 +39,7 @@ public partial class AppDbContext : DbContext
     public virtual DbSet<Role> Role { get; set; }
 
     public virtual DbSet<User> User { get; set; }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Brand>(entity =>
@@ -80,15 +83,9 @@ public partial class AppDbContext : DbContext
                 .HasConstraintName("contracts_device_device_id_fkey");
         });
 
-        modelBuilder.Entity<CountryOrigin>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("country_origin_pkey");
-        });
+        modelBuilder.Entity<CountryOrigin>(entity => { entity.HasKey(e => e.Id).HasName("country_origin_pkey"); });
 
-        modelBuilder.Entity<Department>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("department_pkey");
-        });
+        modelBuilder.Entity<Department>(entity => { entity.HasKey(e => e.Id).HasName("department_pkey"); });
 
         modelBuilder.Entity<Device>(entity =>
         {
@@ -117,15 +114,23 @@ public partial class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("movement_device_id_fkey");
 
-            entity.HasOne(d => d.UserDestination).WithMany(p => p.MovementUserDestination).HasConstraintName("movement_user_destination_id_fkey");
+            entity.HasOne(d => d.UserDestination).WithMany(p => p.MovementUserDestination)
+                .HasConstraintName("movement_user_destination_id_fkey");
 
-            entity.HasOne(d => d.UserOrigin).WithMany(p => p.MovementUserOrigin).HasConstraintName("movement_user_origin_id_fkey");
+            entity.HasOne(d => d.UserOrigin).WithMany(p => p.MovementUserOrigin)
+                .HasConstraintName("movement_user_origin_id_fkey");
         });
 
-        modelBuilder.Entity<Provider>(entity =>
+        modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("provider_pkey");
+            entity.HasKey(e => e.Id).HasName("product_pkey");
+
+            entity.HasOne(d => d.Brand).WithMany(p => p.Product)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("product_brand_id_fkey");
         });
+
+        modelBuilder.Entity<Provider>(entity => { entity.HasKey(e => e.Id).HasName("provider_pkey"); });
 
         modelBuilder.Entity<PurchaseOrder>(entity =>
         {
@@ -145,23 +150,20 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<PurchaseOrderDevice>(entity =>
         {
-            entity.HasKey(e => new { e.OrderId, e.DeviceId }).HasName("purchase_order_device_pkey");
+            entity.HasKey(e => new { e.OrderId, e.ProductId }).HasName("purchase_order_device_pkey");
 
             entity.Property(e => e.Quantity).HasDefaultValue(1);
-
-            entity.HasOne(d => d.Device).WithMany(p => p.PurchaseOrderDevice)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("purchase_order_device_device_id_fkey");
 
             entity.HasOne(d => d.Order).WithMany(p => p.PurchaseOrderDevice)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("purchase_order_device_order_id_fkey");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.PurchaseOrderDevice)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("purchase_order_device_product_id_fkey");
         });
 
-        modelBuilder.Entity<Role>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("role_pkey");
-        });
+        modelBuilder.Entity<Role>(entity => { entity.HasKey(e => e.Id).HasName("role_pkey"); });
 
         modelBuilder.Entity<User>(entity =>
         {

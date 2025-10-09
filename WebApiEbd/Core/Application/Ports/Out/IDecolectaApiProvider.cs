@@ -4,5 +4,4 @@ namespace WebApiEbd.Core.Application.Ports.Out
     {
         Task<HttpResponseMessage> GetDetailAsync(string ruc);
     }
-    
 }
