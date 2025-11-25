@@ -11,7 +11,12 @@ public class ProductRepository(AppDbContext ctx) : IProductRepository
     {
         ctx.Product.Add(product);
         await ctx.SaveChangesAsync();
-        return product;
+
+        var created = await ctx.Product
+            .Include(p => p.Brand)
+            .FirstAsync(p => p.Id == product.Id);
+
+        return created;
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync()

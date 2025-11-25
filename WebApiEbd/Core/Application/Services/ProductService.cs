@@ -42,9 +42,9 @@ public class ProductService(IProductRepository repository) : IProductService
             Model = dto.Model,
             BrandId = dto.BrandId
         };
-
+        
         var created = await repository.AddAsync(product);
-
+        
         return new ProductDetailDto(
             created.Id,
             created.Name,
