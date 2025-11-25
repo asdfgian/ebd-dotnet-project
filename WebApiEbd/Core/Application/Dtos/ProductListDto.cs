@@ -1,6 +1,6 @@
 namespace WebApiEbd.Core.Application.Dtos;
 
-public record ProductListDto(
+public record ProductDto(
     int Id,
     string Name,
     string? Model,
